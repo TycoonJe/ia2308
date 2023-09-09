@@ -1,15 +1,15 @@
 /// Copyright (c) 2023 Kodeco Inc.
-///
+/// 
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
 /// in the Software without restriction, including without limitation the rights
 /// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 /// copies of the Software, and to permit persons to whom the Software is
 /// furnished to do so, subject to the following conditions:
-///
+/// 
 /// The above copyright notice and this permission notice shall be included in
 /// all copies or substantial portions of the Software.
-///
+/// 
 /// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
 /// distribute, sublicense, create a derivative work, and/or sell copies of the
 /// Software in any work that is designed, intended, or marketed for pedagogical or
@@ -17,7 +17,7 @@
 /// or information technology.  Permission for such use, copying, modification,
 /// merger, publication, distribution, sublicensing, creation of derivative works,
 /// or sale is expressly withheld.
-///
+/// 
 /// This project and source code may use libraries or frameworks that are
 /// released under various Open-Source licenses. Use of those libraries and
 /// frameworks are governed by their own individual licenses.
@@ -32,55 +32,38 @@
 
 import SwiftUI
 
-struct ContentView: View {
-  @State private var alertIsVisible: Bool = false
-  @State private var redColor: Double = 0.0
-  @State private var greenColor: Double = 0.0
-  @State private var blueColor: Double = 0.0
-  @State private var foregroundColor = Color(red: 0, green: 0, blue: 0)
-
+struct ButtonView: View {
+  
+  var buttonTitle: String
+  var redColor: Double
+  var greenColor: Double
+  var blueColor: Double
+  @Binding var foregroundColor: Color
+  
+  
   var body: some View {
-
-    VStack {
-      Text("Color Picker")
-        .font(.largeTitle)
-
-      RoundedRectangle(cornerRadius: 0)
-        .foregroundColor(foregroundColor)
-        .border(.black)
-      VStack {
-        Text("Red")
-        HStack {
-          Slider(value: $redColor, in: 0...255)
-          Text("\(Int(redColor.rounded()))")
-        }
-      }
-      VStack {
-        Text("Green")
-        HStack {
-          Slider(value: $greenColor, in: 0...255)
-          Text("\(Int(greenColor.rounded()))")
-        }
-      }
-      VStack {
-        Text("Blue")
-        HStack {
-          Slider(value: $blueColor, in: 0...255)
-          Text("\(Int(blueColor.rounded()))")
-        }
-      }
-      Button("Set Color") {
-        foregroundColor = Color(red: redColor / 255, green: greenColor / 255, blue: blueColor / 255)
-      }
+    
+    Button {
+      foregroundColor = Color(red: redColor / Constants.Colors.fixedDenominatorColorValue, green: greenColor / Constants.Colors.fixedDenominatorColorValue, blue: blueColor / Constants.Colors.fixedDenominatorColorValue)
+    } label: {
+      Text(buttonTitle)
+        .padding()
+        .bold()
+        .foregroundColor(Color.white)
+        .background(
+          RoundedRectangle(cornerRadius: Constants.Button.cornerRadius)
+            .fill(Color("ButtonColor"))
+        )
+        .overlay(
+          RoundedRectangle(cornerRadius: Constants.Button.cornerRadius)
+            .stroke(Color.white, lineWidth: Constants.Button.strokeLineWidth)
+        )
     }
-    .background(Color.white)
-    .padding(20)
-
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView()
-  }
+struct ButtonView_Previews: PreviewProvider {
+    static var previews: some View {
+      ButtonView(buttonTitle: "Button", redColor: Constants.Colors.redDefaultColorValue, greenColor: Constants.Colors.greenDefaultColorValue, blueColor: Constants.Colors.blueDefaultColorValue, foregroundColor: .constant(Color(red: Constants.Colors.redDefaultColorValue / Constants.Colors.fixedDenominatorColorValue, green: Constants.Colors.greenDefaultColorValue / Constants.Colors.fixedDenominatorColorValue, blue: Constants.Colors.blueDefaultColorValue / Constants.Colors.fixedDenominatorColorValue)))
+    }
 }
